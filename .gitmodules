@@ -1,0 +1,6 @@
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/jaja07/frontend.git
+[submodule "api"]
+	path = api
+	url = https://github.com/jaja07/api.git
