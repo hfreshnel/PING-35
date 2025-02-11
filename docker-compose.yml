@@ -1,0 +1,49 @@
+
+services:
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+      
+  api:
+    build: ./api/app
+    container_name: api
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./api/.env
+    volumes:
+      - ./api/app/bdk:/code/app/bdk
+  
+  api2:
+    build: ./api/app2
+    container_name: api2
+    ports:
+      - "8082:8000"
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    env_file:
+      - ./api/.env
+    volumes:
+      - ./api/data:/data/db
+      - ./api/init-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - '27017:27017'
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    env_file:
+      - api/.env
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password123
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_BASICAUTH: false
+    ports:
+      - '8081:8081'
+
+      
